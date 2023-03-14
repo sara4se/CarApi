@@ -28,4 +28,15 @@ struct TodoController: RouteCollection {
         try await todo.delete(on: req.db)
         return .noContent
     }
+    func update(req: Request)throws  -> EventLoopFuture<HTTPStatus>{
+        let todo = try req.content.decode(Todo.self)
+        return Todo.find(todo.id, on: req.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap{
+                $0.title = todo.title
+                return $0.update(on: req.db).transform(to: .ok)
+            }
+        
+    }
+     
 }

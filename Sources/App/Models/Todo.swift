@@ -17,3 +17,7 @@ final class Todo: Model, Content {
         self.title = title
     }
 }
+struct Article: Content {
+    var title: String
+    var content: String
+}
