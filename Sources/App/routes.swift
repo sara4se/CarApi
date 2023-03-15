@@ -15,10 +15,12 @@ func routes(_ app: Application) throws {
         app.group("cars") { cars in
         
         cars.get("all") { Req in
-            return "hello car get"
+            return Cars(id: UUID(),name: "camery", color: "red", model: "2001", price: 12)
         }
         cars.post("post") { Req in
-            return "hello car post"
+            let car = try Req.content.decode(Cars.self)
+            print(car)
+            return car
         }
         cars.get(":name") { req -> String in
             let name = req.parameters.get("name")!

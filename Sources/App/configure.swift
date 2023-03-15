@@ -13,7 +13,7 @@ public func configure(_ app: Application) throws {
         username: Environment.get("DATABASE_USERNAME") ?? "vapor_username",
         password: Environment.get("DATABASE_PASSWORD") ?? "vapor_password",
 //        name: Environment.get("USERNAME") ?? "username",
-        database: Environment.get("DATABASE_NAME") ?? "vapor_database"
+        database: Environment.get("DATABASE_NAME") ?? "vapordb"
     ), as: .psql)
 
     app.migrations.add(CreateCar())
