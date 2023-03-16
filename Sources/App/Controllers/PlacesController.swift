@@ -3,7 +3,7 @@ import Vapor
 
 struct PlacesController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
-        let placeRouteGroupe = routes.grouped("Places")
+        let placeRouteGroupe = routes.grouped("places")
         placeRouteGroupe.get(use: index)
         placeRouteGroupe.post(use: create)
         placeRouteGroupe.group(":PlacesID") { place in
@@ -17,9 +17,9 @@ struct PlacesController: RouteCollection {
     }
 
     func create(req: Request) async throws -> Places {
-        let todo = try req.content.decode(Places.self)
-        try await todo.save(on: req.db)
-        return todo
+        let places = try req.content.decode(Places.self)
+        try await places.save(on: req.db)
+        return places
     }
 
     func delete(req: Request) async throws -> HTTPStatus {

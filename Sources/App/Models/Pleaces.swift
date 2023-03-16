@@ -9,7 +9,7 @@ import Fluent
 import Vapor
 
 final class Places: Model, Content {
-    static let schema = "pleaces"
+    static let schema = "places"
     
     @ID(key: .id)
     var id: UUID?

@@ -33,15 +33,19 @@ func routes(_ app: Application) throws {
             return "car name inside group: , \(name)!"
         }
          //    PATCH /cars/:carID
-            cars.patch(":carID", use: CarsController.update(CarsController.init()))
+            cars.patch(":CarID", use: CarsController.update(CarsController.init()))
         
             // DELETE /cars/:carID
-            cars.delete(":carID", use: CarsController.delete(CarsController.init()))
+            cars.delete(":CarID", use: CarsController.delete(CarsController.init()))
     }
     
     try app.autoMigrate().wait()
 
     // or
+    try app.register(collection: PlacesController())
+        let placesController = PlacesController()
+    app.post("places", use: placesController.create)
+    app.get("places", use: placesController.index)
     try app.register(collection: CarsController())
         let carsController = CarsController()
     app.post("cars", use: carsController.create)

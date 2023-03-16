@@ -12,7 +12,7 @@ struct CarsController: RouteCollection {
         let car = routes.grouped("cars")
         car.get(use: index)
         car.post(use: create)
-        car.group(":carID") { car in
+        car.group(":CarID") { car in
             car.delete(use: delete)
             car.patch(use: update)
         }
@@ -28,14 +28,14 @@ struct CarsController: RouteCollection {
     }
 
     func delete(req: Request) async throws -> HTTPStatus {
-        guard let car = try await Cars.find(req.parameters.get("carID"), on: req.db) else {
+        guard let car = try await Cars.find(req.parameters.get("CarID"), on: req.db) else {
             throw Abort(.notFound)
         }
         try await car.delete(on: req.db)
         return .noContent
     }
     func update(req: Request)throws  -> EventLoopFuture<HTTPStatus>{
-        let carID = try req.parameters.require("carID", as: UUID.self)
+        let carID = try req.parameters.require("CarID", as: UUID.self)
         let car = try req.content.decode(Cars.self)
         return Cars.find(carID, on: req.db)
             .unwrap(or: Abort(.notFound))

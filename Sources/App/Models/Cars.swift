@@ -20,13 +20,13 @@ final class Cars: Model, Content {
     @Field(key: "Type")
     var type: String
     //السنة
-    @Field(key: "year")
+    @Field(key: "Year")
        var year: Int
     ///لون خارجي
-    @Field(key: "Exteriorcolor")
+    @Field(key: "ExteriorColor")
     var exteriorcolor: String
     //لون داخلي
-    @Field(key: "Interiorcolor")
+    @Field(key: "InteriorColor")
     var  innercolor: String
     //الموديل
     @Field(key: "Model")
@@ -44,13 +44,13 @@ final class Cars: Model, Content {
     @Field(key: "Fueltype")
     var fueltype: String
     //حجم المحرك
-    @Field(key: "Enginesize")
+    @Field(key: "EngineSize")
     var enginesize: String
     //نوع القير
-    @Field(key: "asphalttype")
+    @Field(key: "GearType")
     var asphalttype: String
     //عدد السلندرات
-    @Field(key: "Thenumberofcylinders")
+    @Field(key: "NumberOfCylinders")
     var thenumberofcylinders: String
     //الامان
     @Field(key: "Safety")
