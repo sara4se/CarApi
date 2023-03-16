@@ -1,42 +1,47 @@
 import Fluent
 import Vapor
 
-struct TodoController: RouteCollection {
+struct PlacesController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
-        let todos = routes.grouped("todos")
-        todos.get(use: index)
-        todos.post(use: create)
-        todos.group(":todoID") { todo in
-            todo.delete(use: delete)
+        let placeRouteGroupe = routes.grouped("Places")
+        placeRouteGroupe.get(use: index)
+        placeRouteGroupe.post(use: create)
+        placeRouteGroupe.group(":PlacesID") { place in
+            place.delete(use: delete)
+            place.patch(use: update)
         }
     }
 
-    func index(req: Request) async throws -> [Todo] {
-        try await Todo.query(on: req.db).all()
+    func index(req: Request) async throws -> [Places] {
+        try await Places.query(on: req.db).all()
     }
 
-    func create(req: Request) async throws -> Todo {
-        let todo = try req.content.decode(Todo.self)
+    func create(req: Request) async throws -> Places {
+        let todo = try req.content.decode(Places.self)
         try await todo.save(on: req.db)
         return todo
     }
 
     func delete(req: Request) async throws -> HTTPStatus {
-        guard let todo = try await Todo.find(req.parameters.get("todoID"), on: req.db) else {
+        guard let places = try await Places.find(req.parameters.get("PlacesID"), on: req.db) else {
             throw Abort(.notFound)
         }
-        try await todo.delete(on: req.db)
+        try await places.delete(on: req.db)
         return .noContent
     }
     func update(req: Request)throws  -> EventLoopFuture<HTTPStatus>{
-        let todo = try req.content.decode(Todo.self)
-        return Todo.find(todo.id, on: req.db)
+        let places = try req.content.decode(Places.self)
+        return Places.find(places.id, on: req.db)
             .unwrap(or: Abort(.notFound))
             .flatMap{
-                $0.title = todo.title
+                $0.citeis = places.citeis
+                $0.showRooms = places.showRooms
+                
+                
                 return $0.update(on: req.db).transform(to: .ok)
             }
         
     }
      
 }
+
