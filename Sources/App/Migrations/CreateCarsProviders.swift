@@ -17,6 +17,7 @@ struct CreateCarsProviders: AsyncMigration {
             .field("PhoneNumber", .int64, .required)
             .field("CommercialRegister", .int64, .required)
             .field("ProfileImage", .string, .required)
+        
             .create()
     }
     

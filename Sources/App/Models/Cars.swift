@@ -16,8 +16,8 @@ final class Cars: Model, Content {
     @ID(key: .id)
     var id: UUID?
     
-    @Parent(key: "PlacesID")
-        var carsProviders: CarsProviders
+    @Parent(key: "carsProvidersID")
+     var carsProviders: CarsProviders
     
 //الماركة
     @Field(key: "Brand")

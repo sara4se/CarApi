@@ -4,6 +4,7 @@ struct CreateCar: AsyncMigration {
     func prepare(on database: Database) async throws {
         try await database.schema("cars")
             .id()
+            .field("carsProvidersID", .uuid, .required, .references("CarsProviders", "carsProvidersID"))
             .field("Brand", .string, .required)
             .field("Type", .string, .required)
             .field("Year", .int64, .required)
