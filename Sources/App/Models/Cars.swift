@@ -8,11 +8,17 @@
 import Foundation
 import Vapor
 import FluentKit
+//import FluentBenchmark
 final class Cars: Model, Content {
     static let schema = "cars"
     
+    
     @ID(key: .id)
     var id: UUID?
+    
+    @Parent(key: "PlacesID")
+        var carsProviders: CarsProviders
+    
 //الماركة
     @Field(key: "Brand")
     var brand: String
@@ -82,6 +88,7 @@ final class Cars: Model, Content {
         self.safety = safety
         self.meansOfComfort = meansOfComfort
         self.carImage = carImage
+       
     }
 }
 final class Fueleconomy : Content  {
