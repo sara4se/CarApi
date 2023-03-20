@@ -10,14 +10,14 @@ import Vapor
 import FluentKit
 //import FluentBenchmark
 final class Cars: Model, Content {
-    static let schema = "cars"
+    static let schema = "Cars"
     
     
     @ID(key: .id)
     var id: UUID?
-    
-    @Parent(key: "carsProvidersID")
-     var carsProviders: CarsProviders
+   
+    @Parent(key: "CarsProvidersId")
+    var carsProviders: CarsProviders
     
 //الماركة
     @Field(key: "Brand")
@@ -27,7 +27,7 @@ final class Cars: Model, Content {
     var type: String
     //السنة
     @Field(key: "Year")
-       var year: Int
+       var year: Int64
     ///لون خارجي
     @Field(key: "ExteriorColor")
     var exteriorcolor: String
@@ -44,9 +44,9 @@ final class Cars: Model, Content {
     @Field(key: "Price")
     var price: Double
       //اقتصاد الوقود
-    @Field(key: "Fueleconomy")
-    var fueleconomy: Fueleconomy
-    //نوع الوقود
+//    @Field(key: "Fueleconomy")
+//    var fueleconomy: Fueleconomy
+//    //نوع الوقود
     @Field(key: "Fueltype")
     var fueltype: String
     //حجم المحرك
@@ -54,7 +54,7 @@ final class Cars: Model, Content {
     var enginesize: String
     //نوع القير
     @Field(key: "GearType")
-    var asphalttype: String
+    var gearType: String
     //عدد السلندرات
     @Field(key: "NumberOfCylinders")
     var thenumberofcylinders: String
@@ -70,9 +70,10 @@ final class Cars: Model, Content {
     
     init() { }
 
-    init(id: UUID? = nil,brand: String ,type: String,year: Int,exteriorcolor: String,innercolor: String,model: String,catogray: String,price: Double, fueleconomy: Fueleconomy,fueltype: String, enginesize: String, asphalttype: String,thenumberofcylinders: String,safety: String, meansOfComfort: String, carImage: String) {
+    init(id: UUID? = nil,brand: String ,carsProvidersId : UUID ,type: String,year: Int64 ,exteriorcolor: String,innercolor: String,model: String,catogray: String,price: Double,fueltype: String, enginesize: String, gearType: String,thenumberofcylinders: String,safety: String, meansOfComfort: String, carImage: String) {
         self.id = id
         self.brand = brand
+        self.$carsProviders.id = carsProvidersId
         self.type = type
         self.year = year
         self.exteriorcolor = exteriorcolor
@@ -80,10 +81,10 @@ final class Cars: Model, Content {
         self.model = model
         self.catogray = catogray
         self.price = price
-        self.fueleconomy = fueleconomy
+      //  self.fueleconomy = fueleconomy
         self.fueltype = fueltype
         self.enginesize = enginesize
-        self.asphalttype = asphalttype
+        self.gearType = gearType
         self.thenumberofcylinders = thenumberofcylinders
         self.safety = safety
         self.meansOfComfort = meansOfComfort

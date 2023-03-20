@@ -13,7 +13,7 @@ struct CarsProvidersController: RouteCollection {
         let CarsProvidersRouteGroupe = routes.grouped("carsProviders")
         CarsProvidersRouteGroupe.get(use: index)
         CarsProvidersRouteGroupe.post(use: create)
-        CarsProvidersRouteGroupe.group(":carsProvidersID") { carsProviders in
+        CarsProvidersRouteGroupe.group(":id") { carsProviders in
             carsProviders.delete(use: delete)
             carsProviders.patch(use: update)
         }
@@ -30,7 +30,7 @@ struct CarsProvidersController: RouteCollection {
     }
 
     func delete(req: Request) async throws -> HTTPStatus {
-        guard let carsProviders = try await CarsProviders.find(req.parameters.get("carsProvidersID"), on: req.db) else {
+        guard let carsProviders = try await CarsProviders.find(req.parameters.get("id"), on: req.db) else {
             throw Abort(.notFound)
         }
         try await carsProviders.delete(on: req.db)

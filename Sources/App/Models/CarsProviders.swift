@@ -10,9 +10,14 @@ import Vapor
 
 final class CarsProviders: Model, Content {
     static let schema = "CarsProviders"
-    
+//
+
+  //  @ID(custom: "CarsProvidersId")
     @ID(key: .id)
     var id: UUID?
+//    @Children (key : "carId")
+//    @Children(for: \Cars.$id)
+//    var carId : [Cars]
     //
     @Field(key: "Email")
     var email: String
@@ -28,17 +33,12 @@ final class CarsProviders: Model, Content {
     
     @Field(key: "ProfileImage")
     var profileImage: String
-    
-//    @Field(key: "lat")
-//    var lat: String
-//
-//    @Field(key: "long")
-//    var long: String
-    
+ 
     init() { }
-
-    init(id: UUID? = nil, email: String, password: Int64 ,commercialRegister: Int64 , phoneNumber: Int64 ,profileImage: String ) {
+//    , carId: UUID 
+    init(id: UUID? = UUID(), email: String, password: Int64 ,commercialRegister: Int64 , phoneNumber: Int64 ,profileImage: String ) {
         self.id = id
+//        self.$carId.fromId = carId
         self.email = email
         self.password = password
         self.phoneNumber = phoneNumber

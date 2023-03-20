@@ -12,6 +12,7 @@ struct CreateCarsProviders: AsyncMigration {
     func prepare(on database: Database) async throws {
         try await database.schema("CarsProviders")
             .id()
+           // .field("CarsProvidersId", .uuid, .required, .references("CarsProviders", "id"))
             .field("Email", .string, .required)
             .field("Password", .int64, .required)
             .field("PhoneNumber", .int64, .required)

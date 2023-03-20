@@ -48,10 +48,10 @@ struct CarsController: RouteCollection {
                 $0.model = car.model
                 $0.catogray = car.catogray
                 $0.price = car.price
-                $0.fueleconomy = car.fueleconomy
+              //  $0.fueleconomy = car.fueleconomy
                 $0.fueltype = car.fueltype
                 $0.enginesize = car.enginesize
-                $0.asphalttype = car.asphalttype
+                $0.gearType = car.gearType
                 $0.thenumberofcylinders = car.thenumberofcylinders
                 $0.safety = car.safety
                 $0.meansOfComfort = car.meansOfComfort
