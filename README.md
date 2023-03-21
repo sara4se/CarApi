@@ -1,6 +1,6 @@
 # CarsApi
 # Solution Concept :
-help users to find the best car based on several criteria
+Help users to find the best car based on several criteria
 # App Statement :
 Creating Api to help users to find the best car
 # Feature List :
