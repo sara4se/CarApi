@@ -13,10 +13,8 @@ struct CarsProvidersController: RouteCollection {
         let CarsProvidersRouteGroupe = routes.grouped("carsProviders")
         CarsProvidersRouteGroupe.get(use: index)
         CarsProvidersRouteGroupe.post(use: create)
-//        CarsProvidersRouteGroupe.group(":id") { carsProviders in
         CarsProvidersRouteGroupe.delete(":id", use: delete)
         CarsProvidersRouteGroupe.put(":id", use: update)
-//        }
     }
 
     func index(req: Request) async throws -> [CarsProviders] {
@@ -37,26 +35,6 @@ struct CarsProvidersController: RouteCollection {
         
         return .noContent
     }
-//    app.group("carsProviderUpdated") { cars in
-//        // Update a CarsProvider by id
-//        cars.put(":id") { req -> EventLoopFuture<CarsProviders> in
-//            guard let id = req.parameters.get("id", as: UUID.self) else {
-//                throw Abort(.badRequest)
-//            }
-//            let updatedCarsProvider = try req.content.decode(CarsProviders.self)
-//            return CarsProviders.find(id, on: req.db)
-//                .unwrap(or: Abort(.notFound))
-//                .flatMap { carsProvider in
-//                    carsProvider.email = updatedCarsProvider.email
-//                    carsProvider.password = updatedCarsProvider.password
-//                    carsProvider.phoneNumber = updatedCarsProvider.phoneNumber
-//                    carsProvider.commercialRegister = updatedCarsProvider.commercialRegister
-//                    carsProvider.profileImage = updatedCarsProvider.profileImage
-//                    return carsProvider.update(on: req.db).map { updatedCarsProvider }
-//                }
-//        }
-////
-//    }
     func update(req: Request)throws  -> EventLoopFuture<HTTPStatus>{
         let updatedCarsProvider = try req.content.decode(CarsProviders.self)
         return CarsProviders.find(updatedCarsProvider.id, on: req.db)
@@ -71,9 +49,7 @@ struct CarsProvidersController: RouteCollection {
                 
                 return $0.update(on: req.db).transform(to: .ok)
             }
-        
     }
-     
 }
 
 
