@@ -2,136 +2,146 @@ import Fluent
 import Vapor
 
 func routes(_ app: Application) throws {
-    app.group("cars") { cars in
-        cars.post("postCars") { req -> EventLoopFuture<Cars> in
-            let car = try req.content.decode(Cars.self)
-            return car.save(on: req.db).map { car }
-        }
-        
-        cars.get("allCars") { req -> EventLoopFuture<[Cars]> in
-            return Cars.query(on: req.db).with(\.$carsProviders).all()
-        }
-        
-        app.get(":id") { req -> EventLoopFuture<Cars> in
-            let id = try req.parameters.require("id", as: UUID.self)
-            return Cars.find(id, on: req.db)
-                .unwrap(or: Abort(.notFound))
-                .flatMap { car in
-                    car.$carsProviders.load(on: req.db).map { car }
-                }
-        }
-    }
-    
-    app.group("carsUpdated") { cars in
-        app.put(":id") { req -> EventLoopFuture<Cars> in
-            let id = try req.parameters.require("id", as: UUID.self)
-            let updateData = try req.content.decode(Cars.self)
-            return Cars.find(id, on: req.db)
-                .unwrap(or: Abort(.notFound))
-                .flatMap { car in
-                    car.brand = updateData.brand
-                    car.type = updateData.type
-                    car.year = updateData.year
-                    car.exteriorcolor = updateData.exteriorcolor
-                    car.innercolor = updateData.innercolor
-                    car.model = updateData.model
-                    car.catogray = updateData.catogray
-                    car.price = updateData.price
-                  //  car.fueleconomy = updateData.fueleconomy
-                    car.fueltype = updateData.fueltype
-                    car.enginesize = updateData.enginesize
-                    car.gearType = updateData.gearType
-                    car.thenumberofcylinders = updateData.thenumberofcylinders
-                    car.safety = updateData.safety
-                    car.meansOfComfort = updateData.meansOfComfort
-                    car.carImage = updateData.carImage
-                    return car.save(on: req.db).map { car }
-                }
-        }
-    }
-    
-    app.group("carsDeleted") { cars in
-        app.delete(":id") { req -> EventLoopFuture<HTTPStatus> in
-            let id = try req.parameters.require("id", as: UUID.self)
-            return Cars.find(id, on: req.db)
-                .unwrap(or: Abort(.notFound))
-                .flatMap { car in
-                    car.delete(on: req.db).transform(to: .noContent)
-                }
-        }
-        
-    }
-    //let cars = app.grouped("cars")
-    app.group("carsProvider") { carsProviderReq in
-        // Create a new CarsProvider
-        
-        carsProviderReq.post("postCarsProvider") { req -> EventLoopFuture<CarsProviders> in
-            let carsProvider = try req.content.decode(CarsProviders.self)
-            return carsProvider.save(on: req.db).map { carsProvider }
-        }
-        
-        // Get all CarsProviders
-        carsProviderReq.get("allCarsProvider") { req -> EventLoopFuture<[CarsProviders]> in
-            return CarsProviders.query(on: req.db).all()
-        }
-        carsProviderReq.get(":getCarProviderID") { req -> EventLoopFuture<CarsProviders> in
-            guard let id = req.parameters.get("getCarProviderID", as: UUID.self) else {
-                throw Abort(.badRequest)
-            }
-            return CarsProviders.find(id, on: req.db)
-                .unwrap(or: Abort(.notFound))
-        }
-    }
-    //  Get a single CarsProvider by id
-    
-    app.group("carsProviderUpdated") { cars in
-        // Update a CarsProvider by id
-        cars.put(":putCarProviderID") { req -> EventLoopFuture<CarsProviders> in
-            guard let id = req.parameters.get("putCarID", as: UUID.self) else {
-                throw Abort(.badRequest)
-            }
-            let updatedCarsProvider = try req.content.decode(CarsProviders.self)
-            return CarsProviders.find(id, on: req.db)
-                .unwrap(or: Abort(.notFound))
-                .flatMap { carsProvider in
-                    carsProvider.email = updatedCarsProvider.email
-                    carsProvider.password = updatedCarsProvider.password
-                    carsProvider.phoneNumber = updatedCarsProvider.phoneNumber
-                    carsProvider.commercialRegister = updatedCarsProvider.commercialRegister
-                    carsProvider.profileImage = updatedCarsProvider.profileImage
-                    return carsProvider.save(on: req.db).map { carsProvider }
-                }
-        }
-        
-    }
-    app.group("carsProviderDeleted") { cars in
-        // Delete a CarsProvider by id
-        cars.delete(":deleteCarProviderID") { req -> EventLoopFuture<HTTPStatus> in
-            guard let id = req.parameters.get("deleteID", as: UUID.self) else {
-                throw Abort(.badRequest)
-            }
-            return CarsProviders.find(id, on: req.db)
-                .unwrap(or: Abort(.notFound))
-                .flatMap { carsProvider in
-                    return carsProvider.delete(on: req.db)
-                }
-                .transform(to: .noContent)
-            
-        }
-    }
-    
-    
+//    app.group("cars") { cars in
+//        cars.post("postCars") { req -> EventLoopFuture<Cars> in
+//            let car = try req.content.decode(Cars.self)
+//            return car.save(on: req.db).map { car }
+//        }
+//        
+//        cars.get("allCars") { req -> EventLoopFuture<[Cars]> in
+//            return Cars.query(on: req.db).with(\.$carsProviders).all()
+//        }
+//        
+//        app.get(":getCarsId") { req -> EventLoopFuture<Cars> in
+//            let id = try req.parameters.require("getCarsId", as: UUID.self)
+//            return Cars.find(id, on: req.db)
+//                .unwrap(or: Abort(.notFound))
+//                .flatMap { car in
+//                    car.$carsProviders.load(on: req.db).map { car }
+//                }
+//        }
+//    }
+//    
+//   
+//    app.group("carsUpdated") { cars in
+//            app.put(":CarID") { req -> EventLoopFuture<HTTPStatus> in
+//                let updateData = try req.content.decode(Cars.self)
+////                guard let id = req.parameters.get("CarID", as: UUID.self) else {
+////                    throw Abort(.badRequest)
+////                }
+////                updateData.id = id
+//                return Cars.find(updateData.id, on: req.db)
+//                    .unwrap(or: Abort(.notFound))
+//                    .flatMap { car in
+//                    car.brand = updateData.brand
+//                    car.type = updateData.type
+//                    car.year = updateData.year
+//                    car.exteriorcolor = updateData.exteriorcolor
+//                    car.innercolor = updateData.innercolor
+//                    car.model = updateData.model
+//                    car.catogray = updateData.catogray
+//                    car.price = updateData.price
+//                    car.$carsProviders.id = updateData.$carsProviders.id
+//                  //  car.fueleconomy = updateData.fueleconomy
+//                    car.fueltype = updateData.fueltype
+//                    car.enginesize = updateData.enginesize
+//                    car.gearType = updateData.gearType
+//                    car.thenumberofcylinders = updateData.thenumberofcylinders
+//                    car.safety = updateData.safety
+//                    car.meansOfComfort = updateData.meansOfComfort
+//                    car.carImage = updateData.carImage
+//                  //  return car.save(on: req.db).map { car }
+//                  //  return car.update(on: req.db).map { updateData }
+//                    return car.update(on: req.db).transform(to: .ok)
+//                }
+//        }
+//    }
+//    
+//    app.group("carsDeleted") { cars in
+//        app.delete(":id") { req -> EventLoopFuture<HTTPStatus> in
+//         //   let id = try req.parameters.require("CarID", as: UUID.self)
+//            guard let id = req.parameters.get("id", as: UUID.self) else {
+//                throw Abort(.badRequest)
+//            }
+//            return Cars.find(id, on: req.db)
+//                .unwrap(or: Abort(.notFound))
+//                .flatMap { car in
+//                    return car.delete(on: req.db)
+//            }.transform(to: .ok)
+//        }
+//        
+//    }
+//    //let cars = app.grouped("cars")
+//    app.group("carsProvider") { carsProviderReq in
+//        // Create a new CarsProvider
+//        
+//        carsProviderReq.post("postCarsProvider") { req -> EventLoopFuture<CarsProviders> in
+//            let carsProvider = try req.content.decode(CarsProviders.self)
+//            return carsProvider.save(on: req.db).map { carsProvider }
+//        }
+//        
+//        // Get all CarsProviders
+//        carsProviderReq.get("allCarsProvider") { req -> EventLoopFuture<[CarsProviders]> in
+//            return CarsProviders.query(on: req.db).all()
+//        }
+//        carsProviderReq.get(":getCarProviderByID") { req -> EventLoopFuture<CarsProviders> in
+//            guard let id = req.parameters.get("getCarProviderByID", as: UUID.self) else {
+//                throw Abort(.badRequest)
+//            }
+//            return CarsProviders.find(id, on: req.db)
+//                .unwrap(or: Abort(.notFound))
+//        }
+//    }
+//    //  Get a single CarsProvider by id
+//    
+//    app.group("carsProviderUpdated") { cars in
+//        // Update a CarsProvider by id
+//        cars.put(":id") { req -> EventLoopFuture<CarsProviders> in
+//            guard let id = req.parameters.get("id", as: UUID.self) else {
+//                throw Abort(.badRequest)
+//            }
+//            let updatedCarsProvider = try req.content.decode(CarsProviders.self)
+//            return CarsProviders.find(id, on: req.db)
+//                .unwrap(or: Abort(.notFound))
+//                .flatMap { carsProvider in
+//                    carsProvider.email = updatedCarsProvider.email
+//                    carsProvider.password = updatedCarsProvider.password
+//                    carsProvider.phoneNumber = updatedCarsProvider.phoneNumber
+//                    carsProvider.commercialRegister = updatedCarsProvider.commercialRegister
+//                    carsProvider.profileImage = updatedCarsProvider.profileImage
+//                    return carsProvider.update(on: req.db).map { updatedCarsProvider }
+//                }
+//        }
+////        
+//    }
+//    app.group("carsProviderDeleted") { cars in
+//        // Delete a CarsProvider by id
+//        cars.delete(":id") { req -> EventLoopFuture<HTTPStatus> in
+//            guard let id = req.parameters.get("id", as: UUID.self) else {
+//                throw Abort(.badRequest)
+//            }
+//            return CarsProviders.find(id, on: req.db)
+//                .unwrap(or: Abort(.notFound))
+//                .flatMap { carsProvider in
+//                    return carsProvider.delete(on: req.db)
+//                }
+//                .transform(to: .noContent)
+//            
+//        }
+//    }
+//    
+//    
     try app.autoMigrate().wait()
     
     // or
     try app.register(collection: CarsProvidersController())
-    let carsProvidersController = CarsProvidersController()
-    app.post("places", use: carsProvidersController.create)
-    app.get("places", use: carsProvidersController.index)
+ //   let carsProvidersController = CarsProvidersController()
+//    app.post("places", use: carsProvidersController.create)
+//    app.get("places", use: carsProvidersController.index)
     try app.register(collection: CarsController())
-    let carsController = CarsController()
-    app.post("cars", use: carsController.create)
-    app.get("cars", use: carsController.index)
+ //   let carsController = CarsController()
+//    app.post("cars", use: carsController.create)
+//    app.get("cars", use: carsController.index)
     //    app.delete("cars", use: carsController.delete)
     //    app.patch("cars", use: carsController.update)
 }
