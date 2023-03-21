@@ -15,9 +15,6 @@ struct CreateCar: AsyncMigration {
             .field("Model", .string, .required)
             .field("Catogray", .string, .required)
             .field("Price", .double, .required)
-        //            .field("Fueleconomy", .date, .required)
-           // .field("Fueleconomy_excellent", .string, .required)
-      
             .field("Fueltype", .string, .required)
             .field("EngineSize", .string, .required)
             .field("GearType", .string, .required)

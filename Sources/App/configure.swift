@@ -12,7 +12,6 @@ public func configure(_ app: Application) throws {
         port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? PostgresConfiguration.ianaPortNumber,
         username: Environment.get("DATABASE_USERNAME") ?? "sara",
         password: Environment.get("DATABASE_PASSWORD") ?? "vapor_password",
-//        name: Environment.get("USERNAME") ?? "username",
         database: Environment.get("DATABASE_NAME") ?? "vapordb"
     ), as: .psql)
     app.views.use(.leaf)

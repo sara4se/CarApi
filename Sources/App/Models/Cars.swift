@@ -92,28 +92,3 @@ final class Cars: Model, Content {
        
     }
 }
-final class Fueleconomy : Content  {
-    var excellent : String
-    var veryGood : String
-    var good : String
-    var average : String
-    var poor : String
-    var veryPoor : String
-    init(excellent: String, veryGood: String, good: String, average: String, poor: String, veryPoor: String) {
-        self.excellent = excellent
-        self.veryGood = veryGood
-        self.good = good
-        self.average = average
-        self.poor = poor
-        self.veryPoor = veryPoor
-    }
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.excellent = try container.decode(String.self, forKey: .excellent)
-        self.veryGood = try container.decode(String.self, forKey: .veryGood)
-        self.good = try container.decode(String.self, forKey: .good)
-        self.average = try container.decode(String.self, forKey: .average)
-        self.poor = try container.decode(String.self, forKey: .poor)
-        self.veryPoor = try container.decode(String.self, forKey: .veryPoor)
-    }
-}

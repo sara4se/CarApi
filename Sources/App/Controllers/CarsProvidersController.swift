@@ -13,10 +13,8 @@ struct CarsProvidersController: RouteCollection {
         let CarsProvidersRouteGroupe = routes.grouped("carsProviders")
         CarsProvidersRouteGroupe.get(use: index)
         CarsProvidersRouteGroupe.post(use: create)
-        CarsProvidersRouteGroupe.group(":id") { carsProviders in
-            carsProviders.delete(use: delete)
-            carsProviders.patch(use: update)
-        }
+        CarsProvidersRouteGroupe.delete(":id", use: delete)
+        CarsProvidersRouteGroupe.put(":id", use: update)
     }
 
     func index(req: Request) async throws -> [CarsProviders] {
@@ -38,22 +36,20 @@ struct CarsProvidersController: RouteCollection {
         return .noContent
     }
     func update(req: Request)throws  -> EventLoopFuture<HTTPStatus>{
-        let carsProviders = try req.content.decode(CarsProviders.self)
-        return CarsProviders.find(carsProviders.id, on: req.db)
+        let updatedCarsProvider = try req.content.decode(CarsProviders.self)
+        return CarsProviders.find(updatedCarsProvider.id, on: req.db)
             .unwrap(or: Abort(.notFound))
             .flatMap{
-                $0.email = carsProviders.email
-                $0.password = carsProviders.password
-                $0.phoneNumber = carsProviders.phoneNumber
-                $0.commercialRegister = carsProviders.commercialRegister
-                $0.profileImage = carsProviders.profileImage
+                $0.email = updatedCarsProvider.email
+                $0.password = updatedCarsProvider.password
+                $0.phoneNumber = updatedCarsProvider.phoneNumber
+                $0.commercialRegister = updatedCarsProvider.commercialRegister
+                $0.profileImage = updatedCarsProvider.profileImage
                 
                 
                 return $0.update(on: req.db).transform(to: .ok)
             }
-        
     }
-     
 }
 
 
