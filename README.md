@@ -5,23 +5,25 @@ Help users to find the best car based on several criteria
 Creating Api to help users to find the best car
 # Feature List :
 - Get all Cars Providers category
-<img width="395" src="allCarsProvider.png">
+<img width="505" src="allCarsProvider.png">
 - Update Cars Provider info
-<img width="395" src="carsProviderUpdated.png">
+<img width="505" src="carsProviderUpdated.png">
 - Add Cars Provider
-<img width="395" alt="postCarsProvider.png" src="postCarsProvider.png">
+<img width="505" alt="postCarsProvider.png" src="postCarsProvider.png">
 - Delete Cars Provider
-<img width="395" alt="carsProviderDeleted.png" src="carsProviderDeleted.png">
+<img width="505" alt="carsProviderDeleted.png" src="carsProviderDeleted.png">
 - Get all Cars category
-<img width="395" src="allCars.png">
+<img width="505" src="allCars.png">
 - Update Car info
-<img width="395" src="carsUpdated.png">
+<img width="505" src="carsUpdated.png">
 - Add new Car
-<img width="395" src="postCars.png">
+<img width="505" src="postCars.png">
 - Delete Car
-<img width="395" src="carsDeleted.png">
-# Database Schema
-<img width="395" alt="Screenshot 1444-08-29 at 6 29 10 PM" src="https://user-images.githubusercontent.com/116960445/226656459-13974da7-0c3c-4f75-85b3-c4134cefff64.png">
+<img width="505" src="carsDeleted.png">
+# Database Schema For Cars
+<img width="505" src="RevertCar.png">
+# Database Schema For Cars Provider
+<img width="505" src="RevertCarPrroviders.png">
 
 # Technologies & Tools:
 - Xcode
