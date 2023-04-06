@@ -21,10 +21,10 @@ public func configure(_ app: Application) throws {
             password: Environment.get("DATABASE_PASSWORD") ?? "vapor_password",
             database: Environment.get("DATABASE_NAME") ?? "vapordb"
         ), as: .psql)
-        app.views.use(.leaf)
+     
         
     }
-    
+    app.views.use(.leaf)
     app.migrations.add([CreateCarsProviders(),CreateCar()])
     //app.migrations.add(CreateCar())
     if app.environment == .development{
